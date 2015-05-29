@@ -1,0 +1,164 @@
+<div class="container cont-border">
+    <div class="row">
+        <nav class="navbar">
+            <div class="nav-dash" ng-controller="AppController as vm">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle Desktop</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ui-sref="dashboard">Trader Desktop</a>
+                </div>
+
+                <div id="navbar" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/" id="a-usr">{{username.name}}</a>
+                        </li>
+                        <li><a href="/" id="a-usr-siout">Sign Out</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+
+    <div id="dashboard-view">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row row-back">
+                    <button class="btn-cust" data-toggle="modal" data-target=".bs-example-modal-sm">
+                        Create
+                    </button>
+                    <button class="btn-cust" ng-click="vm.refreshOrders();">
+                        Refresh
+                    </button>
+                    <button class="btn-cust" ng-click="vm.clearOrders();">
+                        Clear
+                    </button>
+                    <span class="glyphicon glyphicon-stats pull-right view-icon" ng-click="vm.chartRender()" ng-class="vm.myChartClass" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-list pull-right view-icon" ng-click="vm.tabRender()" ng-class="vm.myTableClass" aria-hidden="true"></span>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="row row-backs">
+                    <div class="table-responsive" ng-show="vm.tableFlag">
+                        <table class="table table-cust">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Creation Time
+                                    </th>
+                                    <th>
+                                        Side
+                                    </th>
+                                    <th>
+                                        Symbol
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th>
+                                        Placed
+                                    </th>
+                                    <th>
+                                        Executed
+                                    </th>
+                                    <th>
+                                        Limit Price
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Trader
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="order in vm.account track by order.id">
+                                    <td>
+                                        <small>
+					                      {{order.id}}
+					                    </small>
+                                    </td>
+                                    <td>
+                                        {{order.creationTime | date:'hh:mm' }}
+                                    </td>
+                                    <td>
+                                        {{order.side}}
+                                    </td>
+                                    <td>
+                                        <b>
+					                      {{order.symbol}}
+					                    </b>
+                                    </td>
+                                    <td>
+                                        {{order.quantity }}
+                                    </td>
+                                    <td>
+                                        {{order.quantityPlaced }}
+                                    </td>
+                                    <td>
+                                        {{order.quantityExecuted }}
+                                    </td>
+                                    <td>
+                                        {{order.limitPrice | currency}}
+                                    </td>
+                                    <td>
+                                        {{order.status}}
+                                    </td>
+                                    <td>
+                                        {{order.traderId}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                      <div class="col-md-12" ng-show="vm.chartFlag">
+                    <div data-at-barchart data-assets="vm.account" class="chart-container"></div>
+                </div>
+                </div>
+
+            </div>
+
+            <!-- main -->
+
+        </div>
+        <!-- row -->
+
+    </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header trade-modal">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create Multiple Trades</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Enter number of trades</label>
+                        <input type="text" class="form-control" id="trades" ng-model="vm.tradeValue" placeholder="Enter trades...">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-custom-trade" data-dismiss="modal" ng-click="vm.createOrder()">Create</button>
+                <button type="button" class="btn btn-custom-trade" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
